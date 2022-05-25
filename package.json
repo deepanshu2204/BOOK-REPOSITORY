@@ -1,0 +1,25 @@
+{
+  "name": "book-repository",
+  "version": "1.0.0",
+  "description": "this is the mini project for training purposes at leadsquared ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bharatgupta922/BOOK-REPOSITORY.git"
+  },
+  "keywords": [
+    "booksmanagement"
+  ],
+  "author": "bharat gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bharatgupta922/BOOK-REPOSITORY/issues"
+  },
+  "homepage": "https://github.com/Bharatgupta922/BOOK-REPOSITORY#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
