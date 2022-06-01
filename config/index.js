@@ -1,10 +1,10 @@
-const nconf = require("nconf");
+// const nconf = require("nconf");
 
-nconf.argv().env().file({ file: `./config/.env.json` });
+// nconf.argv().env().file({ file: `./config/.env.json` });
 
-const config = {};
+// const config = {};
 
-config.DATABASE = nconf.get("DATABASE");
-config.PASSWORD = nconf.get("PASSWORD");
+// config.DATABASE = nconf.get("DATABASE");
+// config.PASSWORD = nconf.get("PASSWORD");
 
-module.exports = config;
+// module.exports = config;
