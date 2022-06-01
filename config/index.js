@@ -8,4 +8,4 @@ config.DATABASE = nconf.get("DATABASE");
 config.PASSWORD = nconf.get("PASSWORD");
 
 module.exports = config;
-// deepanshu
+
