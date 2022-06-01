@@ -4,6 +4,7 @@
   "description": "this is the mini project for training purposes at leadsquared ",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,14 @@
   },
   "homepage": "https://github.com/Bharatgupta922/BOOK-REPOSITORY#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "dotenv": "^16.0.1",
+    "env": "^0.0.2",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.1",
+    "nconf": "^0.12.0",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "postgresql": "^0.0.1",
+    "uuid": "^8.3.2"
   }
 }
