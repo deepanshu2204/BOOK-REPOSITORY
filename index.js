@@ -1,11 +1,16 @@
-const express = require('express');
+const express = require("express");
+const pool = require("./database.js");
+const languages = require("./Api/language.js");
+const department = require("./Api/department.js");
 const app = express();
-
-app.get('',(req,res)=>{
-    res.send(`this is the home page `);
+app.use(express.json());
+require("dotenv/config");
+app.use("/languages", languages);
+app.use("/department", department);
+app.get("/books", async (req, res) => {
+  const data = await pool.query("SELECT * FROM books");
+  res.send(data);
 });
-const port = 5000;
-app.listen(port , ()=>{
-	console.log(`app listening on the port no. ${port}`);
-});
 
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`app listening on the port no. ${PORT}`));
