@@ -1,105 +1,73 @@
-const express = require('express');
-const app = express();
-const pool = require('./../connection.js');
-app.use(express.json());
+const app = require("./details");
 
-app.get('/', async (req,res)=>{
-    try{
-        const todo = await pool.query("select * from books");
-        res.json(todo.rows); 
-    }catch(err){
-        console.error(err);
-        res.status(500).json({msg: 'error',
-        error: JSON.stringify(err.message)}); 
-    }
-});
-app.get("/:id",async (req,res)=>{
-    const {id} = req.params;
-    try{
-        const todo = await pool.query("Select * from books where book_id = $1" , [id]);
-        res.json(todo.rows[0]);
-    }catch(err){
-        console.error(err);
-        res.status(500).json({msg: 'error',
-        error: JSON.stringify(err.message)}); 
-    }
-});
-
-app.post('/' , async (req,res)=>{
-    try{
-        const body = req.body ;
-//         // console.log(body);
-if (book_id=="") throw "Please fill the Id.";
-if(isNaN(book_id)){throw "Please provide a number";};
-try{
-  Date("2022-11-25");
-}
-catch(error){
-  error.message; 
-}
-        
-        const newTodo = await pool.query(`
-        INSERT INTO books (book_id ,book_name , published_at) values ($1 , $2 , $3)`,
-         Object.values(body));
-        res.json(newTodo.rows);
-    }
-    catch (err){
-        console.error(err);
-        res.status(500).json({msg: 'error',
-        error: JSON.stringify(err.message)}); 
-    }
-});
-
-
-//api for validation 
-app.delete('/' , (_,res)=>{
-res.send("please provide the id ");
-});
-app.delete('/:id' , async (req,res)=>{
-    try{
-        const {id} = req.params;
-        if(id){
-            console.log(req.body);
-            if(id == "") throw "empty";
-            if(isNaN(id)) throw "Not a Number"
-            
-            const newTodo = await pool.query(`delete from books where book_id = $1`, [id]);
-            res.json("book is deleted");
-        }else {
-            throw "this no input"
-        }
-    }
-    catch (err){
-        console.error(err);
-        res.status(500).json({msg: 'error',
-        error: JSON.stringify(err.message)}); 
-    }
-});
-
-//api for validation 
-app.put('/' , (_,res)=>{
-    res.send("please provide the id ");
+app.get('/', async(req, res) => {
+    pool.query("SELECT * FROM books",(err, res) => {
+      if (!err) {
+        res.status(200).json(res.rows);
+      } else {
+        console.log(err.message);
+        res.status(500).json({error: JSON.stringify(err.message)});
+      }
     });
-app.put('/:id' ,async (req,res) => {
-    try{
-        const {id} = req.params ;
-        const {book_name , published_at} = req.body;
-        if (book_id=="") throw "Please fill the Id.";
-    if(isNaN(book_id)){throw "Please provide a number";};
+  });
+  
+  app.post('/', async(req,res)=>{
+      const {book_id, book_name, published_at} =req.body;
+      if (book_id=="") throw "Please fill the Id.";
+      if(isNaN(book_id)){throw "Please provide a number";};
+      // if(published_at != Date("2022-11-25")) throw "Invalid Format";
+      try{
+        Date("2022-11-25");
+      }
+      catch(error){
+        error.message; 
+      }
+     await pool.query("Insert into books (book_id,book_name, published_at) VALUES ($1, $2, $3)", [book_id, book_name, published_at], (error, results) => {
+          if (!error) {
+              res.status(201).json(`Book added with Id: ${book_id}`);
+          
+            } else {
+              console.log(error.message);
+              res.status(500).json({error: JSON.stringify(error.message)});
+            }
+      });
+  });
+  app.put('/', async(req,res)=>{
+    const {book_id, book_name, published_at} =req.body;
     if (book_id=="") throw "Please fill the Id.";
     if(isNaN(book_id)){throw "Please provide a number";};
-    Date("2022-11-25");
-        if(book_name && published_at){
-            const newTodo = await pool.query(`UPDATE books SET book_name = $1, published_at = $2 where book_id = $3`, [book_name,published_at,id]);
-            res.json(newTodo.rows);
-        }
-        else throw "please provide the required information"
-    }catch(err){
-        console.error(err);
-        res.status(500).json({msg: 'error',
-        error: JSON.stringify(err.message)}); 
+    try{
+      Date("2022-11-25");
     }
-});
-
-module.exports =  app;
-
+    catch(error){
+      error.message; 
+    }
+    // if((published_at) != Date("YYYY-MM-DD")) throw "Provide time in YYYY-MM-DD";
+    pool.query("Update books SET book_name=$1, published_at=$2 where book_id=$3", [book_name, published_at, book_id], (error, results) => {
+        if (!error) {
+            res.status(201).json(`Books updated with Id: ${book_id}`);
+        
+          } else {
+            console.log(error.message);
+            res.status(500).json({error: JSON.stringify(error.message)});
+          }
+    });
+  });
+  
+  app.delete('/', async(req,res)=>{
+    const {book_id} =req.body;
+    if (book_id=="") throw "Please fill the Id.";
+      if(isNaN(book_id)){throw "Please provide a number";};
+   await pool.query("Delete from books where book_id=$1", [book_id], (error, results) => {
+        if (!error) {
+            res.status(201).json(`Book Deleted with id: ${book_id}`);
+        
+          } else {
+            console.log(error.message);
+            res.status(500).json({error: JSON.stringify(error.message)});
+          }
+    });
+  });
+  
+  module.exports= app;
+  
