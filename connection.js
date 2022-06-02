@@ -1,15 +1,10 @@
-const config = require('././/config');
-// require ('dotenv/config');
+require ('dotenv/config');
 const Pool = require("pg").Pool;
-// const validate= require('./validation.js');
 global.pool = new Pool({
-  user: "iaqsqvmm",
-  host: "satao.db.elephantsql.com",
-  database: config.DATABASE,
-  password: config.PASSWORD,
-  port: 5432,
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  port: process.env.PORT
 });
-pool.connect();
-
-
-
+module.exports= pool;
