@@ -1,6 +1,5 @@
 const express = require("express");
 require('dotenv/config');
-const database = require("./connection.js");
 const books =require("./routes/books.js");
 const pricing= require("./routes/pricing.js");
 const details= require("./routes/details.js");
