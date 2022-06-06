@@ -1,4 +1,7 @@
-const app = require("./books");
+const express = require('express');
+const pool = require('./../connection');
+const app = express();
+app.use(express.json());
 
 app.get('/',async(request, response) => {
   await pool.query("SELECT * FROM pricing", (err, res) => {
