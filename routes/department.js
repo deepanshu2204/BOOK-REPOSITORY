@@ -1,15 +1,22 @@
 const express = require("express");
-const pool = require("../database.js");
+const DeptFunc = require("../controllers/department.js");
 const router = express.Router();
-router.get("/", async (req, res) => {
+const d = new DeptFunc();
+router.get("/", d.getDept);
+router.post("/", d.addDept);
+router.put("/:id", d.updateDept);
+router.delete("/:id", d.deleteDept);
+module.exports = router;
+
+/*----------------------------------------------------------------------------------------------------------------
+getRequest
   try {
     const getDepartment = await pool.query("Select * from department");
     res.json(getDepartment);
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.post("/", async (req, res) => {
+post
   try {
     const content = req.body;
     await pool.query(
@@ -20,12 +27,9 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.put("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const content = req.body;
-    await pool.query("Update department set book_genre=$1 where book_id=$2", [
+put  
+try {
+  await pool.query("Update department set book_genre=$1 where book_id=$2", [
       content.book_genre,
       id,
     ]);
@@ -33,14 +37,15 @@ router.put("/:id", async (req, res) => {
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.delete("/:id", async (req, res) => {
-  try {
+
+delete
+
+try {
     const { id } = req.params;
     await pool.query("Delete from department where book_id=$1", [id]);
     res.json("deleted");
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-module.exports = router;
+  
+*/

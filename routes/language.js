@@ -1,7 +1,16 @@
 const express = require("express");
-const pool = require("../database.js");
+const LangFunc = require("../controllers/language.js");
+const lang = new LangFunc();
 const router = express.Router();
-router.get("/", async (req, res) => {
+router.get("/", lang.getLang);
+router.post("/", lang.addLang);
+router.put("/:id", lang.updateLang);
+router.delete("/:id", lang.deleteLang);
+module.exports = router;
+
+/* ------------------------------------------------------------------------------------------------
+
+get
   try {
     const getLanguage = await pool.query("Select * from languages");
     res.json(
@@ -13,8 +22,7 @@ router.get("/", async (req, res) => {
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.post("/", async (req, res) => {
+post
   try {
     const content = req.body;
     console.log(req.body.value);
@@ -27,8 +35,7 @@ router.post("/", async (req, res) => {
     // res.send("Error while posting");
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.put("/:id", async (req, res) => {
+put
   try {
     const { id } = req.params;
     const content = req.body;
@@ -40,14 +47,14 @@ router.put("/:id", async (req, res) => {
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-router.delete("/:id", async (req, res) => {
-  try {
+delete
+ try {
     const { id } = req.params;
     await pool.query("Delete from languages where book_id=$1", [id]);
     res.json("deleted");
   } catch (err) {
     res.json({ msg: "error", error: JSON.stringify(err.message) });
   }
-});
-module.exports = router;
+
+
+*/
