@@ -8,6 +8,8 @@ const stockRoutes = require('./routes/stock.js');
 const abstractRoutes = require('./routes/abstract.js');
 const department = require("./routes/department.js");
 const language = require("./routes/language.js");
+const ModelBooks = require('./models/Books.js');
+const sequelize = require('./connection.js');
 const app =express();
 app.use(express.json());
 app.use('/books',books);
@@ -18,6 +20,14 @@ app.use('/stock' , stockRoutes);
 app.use('/abstract' , abstractRoutes);
 app.use('/languages',language);
 app.use('/department',department);
+// sequelize.sync().then(async (res,err)=>{
+//     if(!err){
+//         console.log(res.rows);
+//     }
+//     else {
+//         console.log(`Error occured ${err.message}`);
+//     }
+// });
 app.get('/',(req,res)=>{
     res.send(`this is the home page `);
 });
